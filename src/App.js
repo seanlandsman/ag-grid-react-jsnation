@@ -32,7 +32,8 @@ function App() {
 
     const defaultColDef = useMemo(() => ({
         sortable: true,
-        filter: true
+        filter: true,
+        enableRowGroup: true
     }), []);
 
     const cellClickedListener = useCallback(e => {
@@ -52,6 +53,7 @@ function App() {
                 defaultColDef={defaultColDef}
                 animateRows={true}
                 rowSelection='multiple'
+                rowGroupPanelShow='always'
             />
         </div>
     );
