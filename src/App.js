@@ -10,13 +10,20 @@ function App() {
     const gridRef = useRef();
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'make'},
-        {field: 'model'},
-        {field: 'price'}
+        {field: 'athlete'},
+        {field: 'age'},
+        {field: 'country'},
+        {field: 'year'},
+        {field: 'date'},
+        {field: 'sport'},
+        {field: 'gold'},
+        {field: 'silver'},
+        {field: 'bronze'},
+        {field: 'total'}
     ]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/row-data.json')
+        fetch('http://localhost:3000/olympic-winners.json')
             .then(result => result.json())
             .then(rowData => setRowData(rowData));
     })
