@@ -8,14 +8,38 @@ import {AgGridReact} from "ag-grid-react";
 
 import 'ag-grid-enterprise'
 
+const SimpleComp = p => {
+    const onDollar = () => alert(`Dollar Clicked ${p.value}`);
+    return (<>
+        <button onClick={onDollar}>{p.buttonText || 'Push'}</button>
+        {p.value}
+    </>);
+}
+
 function App() {
     const gridRef = useRef();
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'athlete'},
+        {
+            field: 'athlete',
+            cellRenderer: SimpleComp,
+            cellRendererParams: {
+                buttonText: '='
+            }
+        },
         {field: 'age'},
         {field: 'country'},
-        {field: 'year'},
+        {
+            field: 'year',
+            cellRendererSelector: p => {
+                if(p.value === 2000) {
+                    return {component: SimpleComp}
+                }
+                if(p.value === 2004) {
+                    return {component: p => <>My Inline Comp: {p.value}</>}
+                }
+            }
+        },
         {field: 'date'},
         {field: 'sport'},
         {field: 'gold'},
