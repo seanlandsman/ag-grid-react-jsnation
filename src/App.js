@@ -6,6 +6,8 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {AgGridReact} from "ag-grid-react";
 
+import 'ag-grid-enterprise'
+
 function App() {
     const gridRef = useRef();
     const [rowData, setRowData] = useState();
@@ -16,7 +18,7 @@ function App() {
     ]);
 
     useEffect(() => {
-        fetch('https://www.ag-grid.com/example-assets/row-data.json')
+        fetch('http://localhost:3000/row-data.json')
             .then(result => result.json())
             .then(rowData => setRowData(rowData));
     })
