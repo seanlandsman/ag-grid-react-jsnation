@@ -16,7 +16,7 @@ function App() {
     ]);
 
     useEffect(() => {
-        fetch('https://www.ag-grid.com/example-assets/row-data.json')
+        fetch('http://localhost:3000/row-data.json')
             .then(result => result.json())
             .then(rowData => setRowData(rowData));
     })

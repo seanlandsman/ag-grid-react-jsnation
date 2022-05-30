@@ -116,6 +116,10 @@ export default App;
 
 Get row data from an external source:
 
+First, download [row data](https://www.ag-grid.com/example-assets/row-data.json) and save it under `public` as `row-data.json.
+
+Then add the fetch: 
+
 ```
 import './App.css';
 
@@ -134,7 +138,7 @@ function App() {
     ]);
 
     useEffect(() => {
-        fetch('https://www.ag-grid.com/example-assets/row-data.json')
+        fetch('http://localhost:3000/row-data.json')
             .then(result => result.json())
             .then(rowData => setRowData(rowData));
     })
@@ -170,7 +174,7 @@ function App() {
     ]);
 
     useEffect(() => {
-        fetch('https://www.ag-grid.com/example-assets/row-data.json')
+        fetch('http://localhost:3000/row-data.json')
             .then(result => result.json())
             .then(rowData => setRowData(rowData));
     })
@@ -214,7 +218,7 @@ function App() {
     ]);
 
     useEffect(() => {
-        fetch('https://www.ag-grid.com/example-assets/row-data.json')
+        fetch('http://localhost:3000/row-data.json')
             .then(result => result.json())
             .then(rowData => setRowData(rowData));
     })
@@ -260,7 +264,7 @@ function App() {
     ]);
 
     useEffect(() => {
-        fetch('https://www.ag-grid.com/example-assets/row-data.json')
+        fetch('http://localhost:3000/row-data.json')
             .then(result => result.json())
             .then(rowData => setRowData(rowData));
     })
@@ -312,7 +316,7 @@ function App() {
     ]);
 
     useEffect(() => {
-        fetch('https://www.ag-grid.com/example-assets/row-data.json')
+        fetch('http://localhost:3000/row-data.json')
             .then(result => result.json())
             .then(rowData => setRowData(rowData));
     })
