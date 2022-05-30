@@ -137,7 +137,7 @@ export default App;
 
 Get row data from an external source:
 
-First, download [row data](https://www.ag-grid.com/example-assets/row-data.json) and save it under `public` as `row-data.json.
+First, download [row data](https://www.ag-grid.com/example-assets/olympic-winners.json) and save it under `public` as `row-data.json.
 
 Then add the fetch: 
 
