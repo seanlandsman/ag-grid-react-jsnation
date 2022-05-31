@@ -8,44 +8,15 @@ import {AgGridReact} from "ag-grid-react";
 
 import 'ag-grid-enterprise'
 
-const SimpleComp = p => {
-    const onDollar = () => alert(`Dollar Clicked ${p.value}`);
-    return (<>
-        <button onClick={onDollar}>{p.buttonText || 'Push'}</button>
-        {p.value}
-    </>);
-}
-
 function App() {
     const gridRef = useRef();
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        {
-            field: 'athlete',
-            cellRenderer: SimpleComp,
-            cellRendererParams: {
-                buttonText: '='
-            }
-        },
-        {field: 'age'},
-        {field: 'country'},
-        {
-            field: 'year',
-            cellRendererSelector: p => {
-                if(p.value === 2000) {
-                    return {component: SimpleComp}
-                }
-                if(p.value === 2004) {
-                    return {component: p => <>My Inline Comp: {p.value}</>}
-                }
-            }
-        },
-        {field: 'date'},
-        {field: 'sport'},
-        {field: 'gold'},
-        {field: 'silver'},
-        {field: 'bronze'},
-        {field: 'total'}
+        {field: 'athlete', filter: 'agTextColumnFilter'},
+        {field: 'age', filter: 'agNumberColumnFilter',},
+        {field: 'country', filter: 'agMultiColumnFilter'},
+        {field: 'year', filter: 'agSetColumnFilter'},
+        {field: 'date', filter: 'agDateColumnFilter'}
     ]);
 
     useEffect(() => {
@@ -55,30 +26,39 @@ function App() {
     })
 
     const defaultColDef = useMemo(() => ({
-        sortable: true,
-        filter: true,
-        enableRowGroup: true
+        flex: 1,
+        floatingFilter: true
     }), []);
 
-    const cellClickedListener = useCallback(e => {
-        console.log('cellClicked', e);
-    }, [])
+    const savedFilterState = useRef();
 
-    const pushMeClicked = useCallback(e => gridRef.current.api.deselectAll(), []);
+    const onBtSave = useCallback(() => {
+        const filterModel = gridRef.current.api.getFilterModel();
+        console.log('Saving Filter Model', filterModel);
+        savedFilterState.current = filterModel;
+    }, []);
+
+    const onBtApply = useCallback(() => {
+        const filterModel = savedFilterState.current;
+        console.log('Applying Filter Model', filterModel);
+        gridRef.current.api.setFilterModel(filterModel);
+    }, []);
 
     return (
-        <div className='ag-theme-alpine' style={{height: 500}}>
-            <button onClick={pushMeClicked}>Push Me</button>
-            <AgGridReact
-                ref={gridRef}
-                onCellClicked={cellClickedListener}
-                columnDefs={columnDefs}
-                rowData={rowData}
-                defaultColDef={defaultColDef}
-                animateRows={true}
-                rowSelection='multiple'
-                rowGroupPanelShow='always'
-            />
+        <div style={{height: 300}}>
+            <div>
+                <button onClick={onBtSave}>Save</button>
+                <button onClick={onBtApply}>Apply</button>
+            </div>
+            <div className="ag-theme-alpine" style={{height: '100%'}}>
+                <AgGridReact ref={gridRef}
+                             rowData={rowData}
+                             animateRows={true}
+                             columnDefs={columnDefs}
+                             defaultColDef={defaultColDef}
+                             popupParent={document.body}
+                />
+            </div>
         </div>
     );
 }
