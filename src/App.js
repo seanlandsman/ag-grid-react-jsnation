@@ -6,17 +6,32 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {AgGridReact} from "ag-grid-react";
 
-import 'ag-grid-enterprise'
+import YearFilter from "./yearFilter";
 
 function App() {
     const gridRef = useRef();
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'athlete', filter: 'agTextColumnFilter'},
-        {field: 'age', filter: 'agNumberColumnFilter',},
-        {field: 'country', filter: 'agMultiColumnFilter'},
-        {field: 'year', filter: 'agSetColumnFilter'},
-        {field: 'date', filter: 'agDateColumnFilter'}
+        {field: 'athlete'},
+        {
+            field: 'age',
+            filter: YearFilter,
+            floatingFilter: true,
+            filterParams: {
+                title: 'My Filter',
+                values: [18, 23]
+            }
+        },
+        {field: 'country'},
+        {
+            field: 'year',
+            filter: YearFilter,
+            filterParams: {
+                title: 'My Filter',
+                values: [2004, 2006, 2008]
+            }
+        },
+        {field: 'date'}
     ]);
 
     useEffect(() => {
@@ -26,8 +41,7 @@ function App() {
     })
 
     const defaultColDef = useMemo(() => ({
-        flex: 1,
-        floatingFilter: true
+        flex: 1
     }), []);
 
     const savedFilterState = useRef();
@@ -44,11 +58,15 @@ function App() {
         gridRef.current.api.setFilterModel(filterModel);
     }, []);
 
+    const onBtnCustomApi = useCallback(() => {
+        gridRef.current.api.getFilterInstance('year', instance => instance.doSomething());
+    })
     return (
-        <div style={{height: 300}}>
+        <div style={{height: 500}}>
             <div>
                 <button onClick={onBtSave}>Save</button>
                 <button onClick={onBtApply}>Apply</button>
+                <button onClick={onBtnCustomApi}>Year Filter Method</button>
             </div>
             <div className="ag-theme-alpine" style={{height: '100%'}}>
                 <AgGridReact ref={gridRef}
@@ -56,7 +74,6 @@ function App() {
                              animateRows={true}
                              columnDefs={columnDefs}
                              defaultColDef={defaultColDef}
-                             popupParent={document.body}
                 />
             </div>
         </div>
