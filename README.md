@@ -1,4 +1,4 @@
-# JSNation - AG Grid React Workshop
+# React Summit - AG Grid React Workshop
 
 ## Please Click on the Branch Dropdown Above 
 
